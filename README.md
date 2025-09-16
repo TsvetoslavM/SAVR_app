@@ -1,73 +1,68 @@
-# SAVR App
+# 🍎 SAVR
 
-Expo Router app with custom bottom navigation, Home (Fridge), Recipes, and To Buy screens. Includes scanner, animations, details pages, and a Profile page with persistence.
+> **Smart App for Virtual Refrigerator** - Your intelligent food management companion
 
-## Quick start
+[![Expo](https://img.shields.io/badge/Expo-000020?style=for-the-badge&logo=expo&logoColor=white)](https://expo.dev/)
+[![React Native](https://img.shields.io/badge/React_Native-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://reactnative.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 
-- Requirements: Node 20+, npm, Android emulator or device with Expo Go
-- Install deps:
-  - `npm install`
-- Run:
-  - Android: `npm run android`
-  - Web: `npm run web`
-- If bundler caches misbehave:
-  - `npx expo start -c`
+A modern mobile app built with Expo Router that helps you manage your fridge inventory, discover recipes, and track your shopping list with barcode scanning capabilities.
 
-## Features
+## ✨ Features
 
-- Custom orange bottom bar
-  - Left: `Recipes`
-  - Center FAB: `Home` icon; when already on Home, opens scanner
-  - Right: `To Buy`
-  - Uses image icons from `assets/images`
-- Home (Fridge)
-  - List with delete (X) + Reanimated enter/exit and layout animations
-  - Tap image → item details `item/[id]`
-- Recipes
-  - Search, Sort (A↔Z), Filter (multi-select: Milk, Bread, Cheese, Ham)
-  - Grid cards; tap → recipe details `recipes/[id]`
-- Details pages
-  - Heart toggle (favorite) turns red
-  - Simple image carousel on tap with dots indicator
-- Profile
-  - Editable Name/Email, Units toggle (Metric/Imperial), Notifications toggle
-  - Save persists via `lib/simpleStorage` (localStorage on web, memory fallback native)
-- Scanner (Expo Camera)
-  - `app/scanner.tsx` uses `expo-camera` `CameraView` with barcode scanning
-  - Opened by tapping FAB while on Home
+- 🏠 **Smart Fridge Management** - Track expiration dates and manage inventory
+- 📱 **Barcode Scanner** - Add products instantly by scanning barcodes
+- 🍳 **Recipe Discovery** - Find recipes based on your available ingredients
+- 🛒 **Shopping Lists** - Keep track of what you need to buy
+- 👤 **User Profile** - Customize settings and preferences
+- 🎨 **Beautiful UI** - Modern design with smooth animations
 
-## Routes
-
-- `app/(tabs)/index.tsx` — Home (Fridge)
-- `app/(tabs)/recipes.tsx` — Recipes grid + menus
-- `app/(tabs)/two.tsx` — To Buy
-- `app/item/[id].tsx` — Item details
-- `app/recipes/[id].tsx` — Recipe details
-- `app/profile.tsx` — Profile
-- `app/scanner.tsx` — Scanner modal
-- `app/_layout.tsx` — Root stack
-- `app/(tabs)/_layout.tsx` — Custom bottom bar
-
-## Assets
-
-- Place nav icons in `assets/images/`
-  - `recipes-svgrepo-com.png` (Recipes)
-  - `buying-on-smartphone-svgrepo-com.png` (To Buy)
-  - `scan-alt-svgrepo-com.png` (FAB icon when on Home)
-
-## Dependencies
-
-- `expo-router` ~6
-- `react-native-reanimated`
-- `expo-camera`
-
-Install camera if missing:
+## 🚀 Quick Start
 
 ```bash
-npx expo install expo-camera
+# Clone and navigate to the app
+cd SAVR_app
+
+# Install dependencies
+npm install
+
+# Start the development server
+npm run android  # For Android
+npm run web      # For Web
 ```
 
-## Notes
+### 🔧 Troubleshooting
 
-- If camera fails in Expo Go, ensure permissions are granted and restart with `npx expo start -c`.
-- Node 20.19.4+ is recommended to avoid engine warnings. 
+If you encounter issues, try clearing the cache:
+
+```bash
+npx expo start -c
+```
+
+## 📱 Screenshots
+
+| Home (Fridge) | Recipes | Scanner | Profile |
+|---------------|---------|---------|---------|
+| 🏠 Inventory management | 🍳 Recipe discovery | 📷 Barcode scanning | ⚙️ User settings |
+
+## 🛠️ Tech Stack
+
+- **Framework**: Expo Router
+- **Language**: TypeScript
+- **Animations**: React Native Reanimated
+- **Camera**: Expo Camera
+- **Storage**: Custom lightweight persistence
+
+## 📖 Documentation
+
+For detailed documentation, API reference, and advanced configuration:
+
+👉 **[View Full Documentation](SAVR_app/README.md)**
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
