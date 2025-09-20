@@ -1,13 +1,31 @@
-import { View, Text, StyleSheet, TouchableOpacity, FlatList, TextInput, Modal, Pressable } from 'react-native';
-import Animated, { FadeIn, Layout, FadeInDown, FadeOutDown } from 'react-native-reanimated';
-import { useMemo, useState } from 'react';
 import { useRouter } from 'expo-router';
+import { useMemo, useState } from 'react';
+import { FlatList, Image, Modal, Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import Animated, { FadeIn, FadeInDown, FadeOutDown, Layout } from 'react-native-reanimated';
+// const allRecipes = Array.from({ length: 12 }).map((_, i) => ({
+// 	id: String(i + 1),
+// 	title: i % 2 === 0 ? 'French Toast' : 'Croque Monsieur',
+// 	ingredients: i % 3 === 0 ? ['Milk', 'Bread'] : i % 3 === 1 ? ['Bread', 'Cheese'] : ['Ham', 'Cheese'],
+// }));
 
-const allRecipes = Array.from({ length: 12 }).map((_, i) => ({
-	id: String(i + 1),
-	title: i % 2 === 0 ? 'French Toast' : 'Croque Monsieur',
-	ingredients: i % 3 === 0 ? ['Milk', 'Bread'] : i % 3 === 1 ? ['Bread', 'Cheese'] : ['Ham', 'Cheese'],
-}));
+const allRecipes = [
+  { id: '1', title: 'French Toast', ingredients: ['Milk ', 'Bread '], image: require('../../assets/images/french_toast.jpg') },
+  { id: '2', title: 'Croque Monsieur', ingredients: ['Bread ', 'Cheese '], image: require('../../assets/images/croque_monsieur.jpg') },
+  { id: '3', title: 'Pancakes', ingredients: ['Flour ', 'Milk '], image: require('../../assets/images/pancakes.jpg') },
+  { id: '4', title: 'Omelette', ingredients: ['Eggs ', 'Cheese '], image: require('../../assets/images/omelette.jpg') },
+  { id: '5', title: 'Grilled Cheese', ingredients: ['Bread ', 'Cheese '], image: require('../../assets/images/grilled_cheese.jpg') },
+  { id: '6', title: 'Caesar Salad', ingredients: ['Lettuce ', 'Croutons '], image: require('../../assets/images/caesar_salad.jpg') },
+  { id: '7', title: 'Spaghetti Carbonara', ingredients: ['Pasta ', 'Bacon '], image: require('../../assets/images/spaghetti_carbonara.jpg') },
+  { id: '8', title: 'Tomato Soup', ingredients: ['Tomato ', 'Cream '], image: require('../../assets/images/tomato_soup.jpg') },
+  { id: '9', title: 'Chicken Curry', ingredients: ['Chicken ', 'Curry Powder '], image: require('../../assets/images/chicken_curry.jpg') },
+  { id: '10', title: 'Beef Tacos', ingredients: ['Beef ', 'Tortilla '], image: require('../../assets/images/beef_tacos.jpg') },
+  { id: '11', title: 'Sushi Rolls', ingredients: ['Rice ', 'Seaweed '], image: require('../../assets/images/sushi_rolls.jpg') },
+  { id: '12', title: 'Avocado Toast', ingredients: ['Avocado ', 'Bread '], image: require('../../assets/images/avocado_toast.jpg') },
+];
+
+const uniqueIngredients = Array.from(
+  new Set(allRecipes.flatMap((r) => r.ingredients))
+);
 
 function Pill({ children, badge, onPress }: { children: React.ReactNode; badge?: number; onPress?: () => void }) {
 	return (
@@ -20,11 +38,11 @@ function Pill({ children, badge, onPress }: { children: React.ReactNode; badge?:
 	);
 }
 
-function RecipeCard({ title, ingredients, onPress }: { title: string; ingredients: string[]; onPress: () => void }) {
+function RecipeCard({ title, ingredients, image, onPress }: { title: string; ingredients: string[]; image: any; onPress: () => void }) {
 	return (
 		<TouchableOpacity activeOpacity={0.9} onPress={onPress}>
 			<View style={styles.card}>
-				<View style={styles.cardImage} />
+				<Image source={image} style={styles.cardImage} />
 				<View style={styles.cardBody}>
 					<Text style={styles.cardTitle}>{title}</Text>
 					<Text style={styles.cardSubtitle}>
@@ -59,7 +77,7 @@ export default function RecipesScreen() {
 		<Animated.View style={styles.container} entering={FadeIn.duration(180)}>
             {/* Header */}
 
-			<Text style={styles.title}>Recipes</Text>
+			<Text style={styles.title}>Recipes </Text>
 
 			{/* Search */}
 			<View style={styles.searchInput}>
@@ -74,8 +92,8 @@ export default function RecipesScreen() {
 
 			{/* Actions */}
 			<View style={styles.actions}>
-				<Pill onPress={() => setShowSort(true)}>↕ Sort</Pill>
-				<Pill onPress={() => setShowFilter(true)} badge={filters.length}>≡ Filter</Pill>
+				<Pill onPress={() => setShowSort(true)}>↕ Sort </Pill>
+				<Pill onPress={() => setShowFilter(true)} badge={filters.length}>≡ Filter </Pill>
 			</View>
 
 			<FlatList
@@ -86,26 +104,33 @@ export default function RecipesScreen() {
 				contentContainerStyle={{ paddingBottom: 120, gap: 16, paddingHorizontal: 8 }}
 				renderItem={({ item }) => (
 					<Animated.View style={{ flex: 1 }} layout={Layout.springify().damping(18)}>
-						<RecipeCard
-							title={item.title}
-							ingredients={item.ingredients}
-							onPress={() => router.push({ pathname: '/recipes/[id]', params: { id: item.id, title: item.title, ing: item.ingredients.join(',') } })}
-						/>
+					<RecipeCard
+						title={item.title}
+						ingredients={item.ingredients}
+						image={item.image}   // ✅ pass image here
+						onPress={() =>
+						router.push({
+							pathname: '/recipes/[id]',
+							params: { id: item.id, title: item.title, ing: item.ingredients.join(',') },
+						})
+						}
+					/>
 					</Animated.View>
 				)}
-			/>
+				/>
+
 
 			{/* Sort Modal */}
 			<Modal visible={showSort} transparent animationType="none" onRequestClose={() => setShowSort(false)}>
 				<Pressable style={styles.backdrop} onPress={() => setShowSort(false)} />
 				<Animated.View entering={FadeInDown.duration(500)} exiting={FadeOutDown.duration(120)} style={styles.sheet}>
-					<Text style={styles.sheetTitle}>Sort by</Text>
+					<Text style={styles.sheetTitle}>Sort by </Text>
 					<TouchableOpacity style={styles.sheetRow} onPress={() => { setSortAsc(true); setShowSort(false); }}>
-						<Text style={styles.sheetRowText}>Title A → Z</Text>
+						<Text style={styles.sheetRowText}>Title A → Z </Text>
 						{sortAsc && <Text style={styles.check}>✓</Text>}
 					</TouchableOpacity>
 					<TouchableOpacity style={styles.sheetRow} onPress={() => { setSortAsc(false); setShowSort(false); }}>
-						<Text style={styles.sheetRowText}>Title Z → A</Text>
+						<Text style={styles.sheetRowText}>Title Z → A </Text>
 						{!sortAsc && <Text style={styles.check}>✓</Text>}
 					</TouchableOpacity>
 				</Animated.View>
@@ -116,10 +141,10 @@ export default function RecipesScreen() {
 				<Pressable style={styles.backdrop} onPress={() => setShowFilter(false)} />
 				<Animated.View entering={FadeInDown.duration(500)} exiting={FadeOutDown.duration(160)} style={styles.sheet}>
 					<Text style={styles.sheetTitle}>Filter by ingredients</Text>
-					{['Milk', 'Bread', 'Cheese', 'Ham'].map((ing) => (
+					{uniqueIngredients.map((ing) => (
 						<TouchableOpacity key={ing} style={styles.sheetRow} onPress={() => toggleFilter(ing)}>
-							<Text style={styles.sheetRowText}>{ing}</Text>
-							{filters.includes(ing) && <Text style={styles.check}>✓</Text>}
+						<Text style={styles.sheetRowText}>{ing}</Text>
+						{filters.includes(ing) && <Text style={styles.check}>✓</Text>}
 						</TouchableOpacity>
 					))}
 					<View style={{ height: 8 }} />
@@ -147,7 +172,7 @@ const styles = StyleSheet.create({
 	badge: { marginLeft: 8, backgroundColor: '#ff6b6b', paddingHorizontal: 8, height: 22, borderRadius: 11, alignItems: 'center', justifyContent: 'center' },
 	badgeText: { color: '#ffffff', fontWeight: '700', fontSize: 12 },
 	card: { backgroundColor: '#f1f6ff', borderRadius: 16, overflow: 'hidden' },
-	cardImage: { height: 132, backgroundColor: '#e6efff' },
+	cardImage: { height: 132, width: '100%', resizeMode: 'cover' },
 	cardBody: { padding: 12, backgroundColor: '#f6f8ff' },
 	cardTitle: { fontSize: 16, fontWeight: '800', color: '#111827', marginBottom: 2 },
 	cardSubtitle: { fontSize: 14, color: '#6b7280' },
