@@ -11,27 +11,23 @@ export default function RecipeDetails() {
 	const images = ['#cfe3ff', '#ffd6d6', '#d1ffd6'];
 	const [imgIndex, setImgIndex] = useState(0);
 
-	const recipeImages: any[] = [];
-  if (image) {
-    // Map ID to the same images you used in allRecipes
-    const imagesMap: Record<string, any> = {
-      '1': require('../../assets/images/french_toast.jpg'),
-      '2': require('../../assets/images/croque_monsieur.jpg'),
-      '3': require('../../assets/images/pancakes.jpg'),
-      '4': require('../../assets/images/omelette.jpg'),
-      '5': require('../../assets/images/grilled_cheese.jpg'),
-      '6': require('../../assets/images/caesar_salad.jpg'),
-      '7': require('../../assets/images/spaghetti_carbonara.jpg'),
-      '8': require('../../assets/images/tomato_soup.jpg'),
-      '9': require('../../assets/images/chicken_curry.jpg'),
-      '10': require('../../assets/images/beef_tacos.jpg'),
-      '11': require('../../assets/images/sushi_rolls.jpg'),
-      '12': require('../../assets/images/avocado_toast.jpg'),
-    };
+  // Map ID to the same images you used in allRecipes
+  const imagesMap: Record<string, any> = {
+    '1': require('../../assets/images/french_toast.jpg'),
+    '2': require('../../assets/images/croque_monsieur.jpg'),
+    '3': require('../../assets/images/pancakes.jpg'),
+    '4': require('../../assets/images/omelette.jpg'),
+    '5': require('../../assets/images/grilled_cheese.jpg'),
+    '6': require('../../assets/images/caesar_salad.jpg'),
+    '7': require('../../assets/images/spaghetti_carbonara.jpg'),
+    '8': require('../../assets/images/tomato_soup.jpg'),
+    '9': require('../../assets/images/chicken_curry.jpg'),
+    '10': require('../../assets/images/beef_tacos.jpg'),
+    '11': require('../../assets/images/sushi_rolls.jpg'),
+    '12': require('../../assets/images/avocado_toast.jpg'),
+  };
 
-    recipeImages.push(imagesMap[id]); // you could later add more images per recipe
-	const recipeImages = id && imagesMap[id] ? [imagesMap[id]] : [];
-  }
+  const recipeImages = id && imagesMap[id] ? [imagesMap[id]] : [];
 
 	return (
 		<View style={styles.container}>
